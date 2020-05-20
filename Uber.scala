@@ -29,7 +29,7 @@ object Uber {
     model.clusterCenters.foreach(println)
     val categories = model.transform(test)
     //categories.show()
-    categories.groupBy("Prediction").count().show()
-    model.write.overwrite().save("C:/Users/vishal rana/Desktop/spark-ml-kmeans-uber-master/data/savemodel")
+    categories.groupBy("Prediction").count().show()  //How many pickups occurred in each cluster?
+    model.write.overwrite().save("C:/Users/vishal rana/Desktop/spark-ml-kmeans-uber-master/data/savemodel")//save model
   }
 }
