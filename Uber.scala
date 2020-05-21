@@ -19,8 +19,11 @@ object Uber {
     df.cache()
    // df.show()
     val featureCols = Array("lat","lon")
+    
     val assembler = new VectorAssembler().setInputCols(featureCols).setOutputCol("features")
+    //it helps concatenate all your feature into big Vector
     val df2 = assembler.transform(df)
+    //transform
    // df2.show()
     val Array(train,test) = df2.randomSplit(Array(0.7,0.3),5043)
     val kmeans = new KMeans().setK(8).setFeaturesCol("features").setPredictionCol("Prediction")
