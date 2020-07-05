@@ -7,3 +7,8 @@ Uber is using big data to perfect its processes, from calculating Uber’s prici
 2) Analytics Using the Model: The second phase uses the model in production on live events. (Note that Spark does provide some streaming machine learning algorithms, but you still often need to do an analysis of historical data.)
 
 ![](images/1.jpg)
+
+Clustering
+
+
+Google News uses a technique called clustering to group news articles into different categories, based on title and content. Clustering algorithms discover groupings that occur in collections of data
