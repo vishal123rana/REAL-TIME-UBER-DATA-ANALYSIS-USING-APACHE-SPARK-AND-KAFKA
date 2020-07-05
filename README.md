@@ -12,3 +12,18 @@ Clustering
 
 
 Google News uses a technique called clustering to group news articles into different categories, based on title and content. Clustering algorithms discover groupings that occur in collections of data
+
+![](images/2.png)
+
+In clustering, an algorithm groups objects into categories by analyzing similarities between input examples. Examples of clustering uses include:
+
+Search results grouping
+Grouping of customers
+Anomaly detection
+Text categorization
+
+![](images/3.png)
+
+Clustering uses unsupervised algorithms, which do not have the outputs (labeled data) in advance
+
+![](imgaes/4.png)
