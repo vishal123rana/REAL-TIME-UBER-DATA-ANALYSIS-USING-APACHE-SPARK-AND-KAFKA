@@ -27,3 +27,36 @@ Text categorization
 Clustering uses unsupervised algorithms, which do not have the outputs (labeled data) in advance
 
 ![](imgaes/4.png)
+
+K-means is one of the most commonly used clustering algorithms that clusters the data points into a predefined number of clusters (k). Clustering using the K-means algorithm begins by initializing all the coordinates to k number of centroids. With every pass of the algorithm, each point is assigned to its nearest centroid based on some distance metric, which is usually Euclidean distance. The centroids are then updated to be the “centers” of all the points assigned to it in that pass. This repeats until there is a minimum change in the centers
+
+The Data Set Schema
+  Date/Time: The date and time of the Uber pickup
+  Lat: The latitude of the Uber pickup
+  Lon: The longitude of the Uber pickup
+  Base: The TLC base company affiliated with the Uber pickup
+
+The Data Records are in CSV format. An example line is shown below:
+
+2014-08-01 00:00:00,40.729,-73.9422,B02598
+
+Example Use Case Code
+First, we import the packages needed for Spark ML K-means and SQL.
+
+import org.apache.spark.ml.clustering.KMeans
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.types._
+
+First create SparkSession Object with some confiuration such as master and app name. which is main entry point for spark structured API
+val spark:SparkSession = SparkSession.builder().master("local[*]").appName("model").getOrCreate()
+
+create schema according data set
+   val schema = StructType(Array(
+        StructField("dt",TimestampType,true),
+      StructField("lat",DoubleType,true),
+      StructField("lon",DoubleType,true),
+      StructField("base",StringType,true)
+    ))
+    
+Next, we load the data from a CSV file into a Spark DataFrame
