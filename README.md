@@ -44,11 +44,16 @@ Example Use Case Code
 First, we import the packages needed for Spark ML K-means and SQL.
 
 import org.apache.spark.ml.clustering.KMeans
+
 import org.apache.spark.ml.feature.VectorAssembler
+
 import org.apache.spark.sql.SparkSession
+
 import org.apache.spark.sql.types._
 
 First create SparkSession Object with some confiuration such as master and app name. which is main entry point for spark structured API
+
+
 val spark:SparkSession = SparkSession.builder().master("local[*]").appName("model").getOrCreate()
 
 create schema according data set
@@ -60,3 +65,68 @@ create schema according data set
     ))
     
 Next, we load the data from a CSV file into a Spark DataFrame
+
+![](images/7.png)
+
+Using Spark 2.4.5 and  we create a DataFrame from a CSV file data source and apply the schema.
+
+val df = spark.read.option("header","false").schema(schema).csv("C:/Users/vishal rana/Desktop/spark-ml-kmeans-uber-master/data/uber.csv")
+
+Note that with Spark 2.0, specifying the schema when loading data into a DataFrame will give better performance than schema inference.
+
+DataFrame printSchema() prints the schema to the console in a tree format, shown below after running in a intelij Console:
+![](images/10.png)
+
+DataFrame show() displays the first 20 rows
+![](images/11.png)
+
+Define Features Array
+In order for the features to be used by a machine learning algorithm, the features are transformed and put into Feature Vectors, which are vectors of numbers representing the value for each feature. Below, a VectorAssembler is used to transform and return a new DataFrame with all of the feature columns in a vector column.
+
+![](images/12.png)
+
+define the feature columns to put in the feature vector
+
+val featureCols = Array("lat","lon")
+
+set the input column names
+
+val assembler = new VectorAssembler().setInputCols(featureCols).setOutputCol("features")
+
+return a dataframe with all of the feature column in a vector column
+
+val df2 = assembler.transform(df)
+
+df2.show()
+
+
+![](images/14.png)
+
+Next, we create a KMeans object, set the parameters to define the number of clusters and the maximum number of iterations to determine the clusters, and then we fit the model to the input data.
+
+
+![](images/15.png)
+
+
+val Array(train,test) = df2.randomSplit(Array(0.7,0.3),5043)
+
+
+val kmeans = new KMeans().setK(8).setFeaturesCol("features").setPredictionCol("Prediction")
+
+
+val model = kmeans.fit(train)
+
+
+println("Final Centers:")
+model.clusterCenters.foreach(println)
+output of model cluster center
+
+
+![](images/17.png)
+
+
+Next, we use the model to get the clusters for test data in order to further analyze the clustering.
+
+
+![](images/19.png)
+
